@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -78,7 +79,7 @@ fun TextInputView(
     ) {
         val keyboard = LocalSoftwareKeyboardController.current
         if (label.isNotEmpty()) TitleText(label)
-        OutlinedTextField(
+        OutlinedTextField(textStyle = TextStyle(color = Color.Black),
             value = value,
             onValueChange = valChange,
             keyboardOptions = KeyboardOptions.Default.copy(
@@ -109,7 +110,7 @@ fun TextInputView(
                 focusedContainerColor = secondary,
                 disabledContainerColor = secondary,
                 disabledTextColor = Color.Black,
-                focusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Black,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
             ),

@@ -18,6 +18,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import net.thanhnguyen.z_note.core.getSpacer
@@ -37,12 +38,12 @@ fun NoteItemUi(note: NoteModel, onEdit:(NoteModel)->Unit, onDelete: (NoteModel) 
             modifier = Modifier
                 .padding(horizontal = 10.dp, vertical = 3.dp)
                 .constrainAs(boxTitle) {})
-        Text(
+        Text(color = Color.Black,
             text = note.note.let { it.substring(0, it.getSpacer(14)) },
             modifier = Modifier
                 .padding(horizontal = 10.dp, vertical = 0.dp)
                 .constrainAs(boxDesc) { top.linkTo(boxTitle.bottom, margin = 2.dp) })
-        Text(
+        Text(color = Color.Black,
             text = note.formatDate(),
             modifier = Modifier
                 .padding(horizontal = 10.dp, vertical = 0.dp)

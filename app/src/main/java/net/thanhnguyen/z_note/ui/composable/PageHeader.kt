@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -33,10 +34,10 @@ fun PageHeader(navController: NavController?, title: String, iconRight: ImageVec
                 contentDescription = title,
                 modifier = Modifier
                     .align(Alignment.CenterStart)
-                    .clickable { navController?.popBackStack() }
+                    .clickable { navController?.popBackStack() }, tint = Color.Black,
             )
         }
-        Text(
+        Text(color = Color.Black,
             text = title,
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
@@ -47,7 +48,7 @@ fun PageHeader(navController: NavController?, title: String, iconRight: ImageVec
             modifier = Modifier.align(Alignment.CenterEnd)
         ){
             iconRight?.let {icoR->
-                Icon(
+                Icon(tint = Color.Black,
                     imageVector = icoR,
                     contentDescription = title,
                     modifier = Modifier

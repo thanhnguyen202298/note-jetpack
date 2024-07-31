@@ -21,7 +21,7 @@ fun TitleText(label: String, modifier: Modifier = Modifier.padding(0.dp, 0.dp, 0
     fontFamily = FontFamily.SansSerif,
     fontSize = fontSize,
     fontWeight = fontWeight,
-    modifier = modifier
+    modifier = modifier, color = Color.Black,
 )
 
 @Composable
