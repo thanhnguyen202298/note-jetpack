@@ -3,13 +3,12 @@ package net.thanhnguyen.z_note.ui.screen
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.util.fastMap
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import io.realm.kotlin.notifications.ResultsChange
@@ -25,7 +24,12 @@ import org.koin.androidx.compose.koinViewModel
 fun HomeScreen(navController: NavController) {
     val noteVM: NoteViewModel = koinViewModel()
     val list: State<ResultsChange<Note>?> = noteVM.flows.collectAsState(initial = null)
-    val listNote : List<NoteModel> = (list.value?.list?.toList() ?: listOf()).fastMap { it.toNoteModel() }
+    val truncate = {(list.value?.list?.toList() ?: listOf()).fastMap { it.toNoteModel() }}
+    val listNote : List<NoteModel> = truncate()
+    val coroutineScope = rememberCoroutineScope()
+    LaunchedEffect(key1 = listNote.size) {
+        noteVM.countnumber.value = listNote.size
+    }
 
    BaseScreen {
         PageHeader(navController = navController, title = "Notes", iconRight = Icons.Default.Home, isHaveBackButton = false)
