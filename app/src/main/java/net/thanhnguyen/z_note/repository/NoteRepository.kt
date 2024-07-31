@@ -9,13 +9,15 @@ import net.thanhnguyen.z_note.core.model.Note
 import net.thanhnguyen.z_note.core.model.NoteModel
 import net.thanhnguyen.z_note.core.usecase.INoteBinding
 import org.mongodb.kbson.BsonObjectId
+import org.mongodb.kbson.ObjectId
 
 class NoteRepository(private val realm: Realm): INoteBinding<NoteModel> {
- override suspend fun findNote(noteId: String): Note? {
+ override suspend fun findNote(noteId: ObjectId): Note? {
         return realm.query(Note::class, "id == $0", noteId).find().firstOrNull()
     }
 
-    suspend fun getAll()=realm.query(Note::class).sort("createdDate", Sort.DESCENDING)
+    suspend fun getAll() = realm.query(Note::class).sort("createdDate", Sort.DESCENDING).find()
+        .map { it.toNoteModel() }
 
     override suspend fun insertNote(note: NoteModel) {
 
@@ -27,17 +29,30 @@ class NoteRepository(private val realm: Realm): INoteBinding<NoteModel> {
     }
 
     override suspend fun updateNote(newNote: NoteModel) {
-        realm.write {
-            realm.query(Note::class, "id == $0", newNote.id).find().firstOrNull()?.apply {
-                title = newNote.title
-                note = newNote.note
+        newNote.id?.let {id->
+            val old = findNote(id)
+            old?.let {
+                realm.write {
+                    val note = findLatest(old)
+                    note?.note = newNote.note
+                    note?.title = newNote.title
+                }
             }
         }
     }
 
     override suspend fun deleteNote(note: NoteModel) {
-        realm.write {
-            delete(note.toNote())
+        note.id?.let {id->
+            val old = findNote(id)
+            old?.let {
+                realm.write {
+                    val obj = findLatest(old)
+                    obj?.let { delete(obj) }
+                }
+            }
+
         }
+
+
     }
 }

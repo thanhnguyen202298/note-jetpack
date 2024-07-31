@@ -11,13 +11,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -26,9 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import net.thanhnguyen.z_note.core.model.Note
 import net.thanhnguyen.z_note.core.model.NoteModel
 import net.thanhnguyen.z_note.core.validate
 import net.thanhnguyen.z_note.ui.BottomNavItem
@@ -37,7 +32,6 @@ import net.thanhnguyen.z_note.ui.composable.PageHeader
 import net.thanhnguyen.z_note.ui.composable.TextInputView
 import net.thanhnguyen.z_note.viewmodel.NoteViewModel
 import org.koin.androidx.compose.koinViewModel
-import org.mongodb.kbson.BsonObjectId
 
 @Composable
 fun EditScreen(
@@ -51,7 +45,6 @@ fun EditScreen(
         note ->
         noteVM.destroyJob()
         if (note.id == null) {
-            note.id = org.mongodb.kbson.ObjectId()
             noteVM.insertNote(note)
         } else {
             noteVM.updateNote(note)

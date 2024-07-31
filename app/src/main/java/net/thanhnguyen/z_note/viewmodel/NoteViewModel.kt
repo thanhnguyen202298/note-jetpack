@@ -12,11 +12,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.thanhnguyen.z_note.core.model.Note
 import net.thanhnguyen.z_note.core.model.NoteModel
 import net.thanhnguyen.z_note.core.usecase.INoteViewModel
 import net.thanhnguyen.z_note.repository.NoteRepository
+import org.mongodb.kbson.ObjectId
 
 class NoteViewModel(val noteRepository: NoteRepository):ViewModel(), INoteViewModel {
     override val coroutineScope: CoroutineScope
@@ -24,12 +26,11 @@ class NoteViewModel(val noteRepository: NoteRepository):ViewModel(), INoteViewMo
     override val jobManager: MutableList<Job> = mutableListOf()
 
     val noteState: MutableState<NoteModel> = mutableStateOf(NoteModel())
-
-    val flows: MutableState<List<NoteModel>> = mutableStateOf(listOf())
+    val flows: MutableState<ArrayList<NoteModel>> = mutableStateOf(arrayListOf())
 
     init {
-        runCoroutine {
-            flows.value = noteRepository.getAll().find().map { it.toNoteModel() }
+        coroutineScope.launch {
+            flows.value.addAll(noteRepository.getAll())
         }
     }
 
@@ -39,5 +40,5 @@ class NoteViewModel(val noteRepository: NoteRepository):ViewModel(), INoteViewMo
 
     fun deleteNote(note: NoteModel) = runCoroutine { delay(200L); noteRepository.deleteNote(note) }
 
-    suspend fun find(noteId: String):Note? = withContext(coroutineScope.coroutineContext){ noteRepository.findNote(noteId) }
+    suspend fun find(noteId: ObjectId):Note? = withContext(coroutineScope.coroutineContext){ noteRepository.findNote(noteId) }
 }
