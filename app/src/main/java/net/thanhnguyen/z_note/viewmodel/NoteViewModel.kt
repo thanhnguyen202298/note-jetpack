@@ -9,10 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.thanhnguyen.z_note.core.model.Note
 import net.thanhnguyen.z_note.core.model.NoteModel
@@ -26,13 +22,9 @@ class NoteViewModel(val noteRepository: NoteRepository):ViewModel(), INoteViewMo
     override val jobManager: MutableList<Job> = mutableListOf()
 
     val noteState: MutableState<NoteModel> = mutableStateOf(NoteModel())
-    val flows: MutableState<ArrayList<NoteModel>> = mutableStateOf(arrayListOf())
 
-    init {
-        coroutineScope.launch {
-            flows.value.addAll(noteRepository.getAll())
-        }
-    }
+    val flows: Flow<ResultsChange<Note>>
+        get() = noteRepository.flows
 
     fun insertNote(note: NoteModel) = runCoroutine { noteRepository.insertNote(note) }
 

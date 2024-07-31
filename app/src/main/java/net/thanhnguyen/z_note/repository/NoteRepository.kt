@@ -16,6 +16,8 @@ class NoteRepository(private val realm: Realm): INoteBinding<NoteModel> {
         return realm.query(Note::class, "id == $0", noteId).find().firstOrNull()
     }
 
+    val flows = realm.query(Note::class).sort("createdDate", Sort.DESCENDING).find().asFlow()
+
     suspend fun getAll() = realm.query(Note::class).sort("createdDate", Sort.DESCENDING).find()
         .map { it.toNoteModel() }
 
