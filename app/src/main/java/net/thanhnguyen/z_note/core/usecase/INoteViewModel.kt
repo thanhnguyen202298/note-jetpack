@@ -9,6 +9,5 @@ interface INoteViewModel {
     val jobManager: MutableList<Job>
 
     fun runCoroutine(runner: suspend ()->Unit) = coroutineScope.launch { runner.invoke() }.let { jobManager.add(it) }
-
     fun destroyJob() = jobManager.map { job: Job -> job.cancel() }.let { jobManager.removeAll { true } }
 }

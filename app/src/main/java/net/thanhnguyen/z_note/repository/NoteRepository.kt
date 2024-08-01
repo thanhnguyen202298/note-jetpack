@@ -11,8 +11,8 @@ import net.thanhnguyen.z_note.core.usecase.INoteBinding
 import org.mongodb.kbson.BsonObjectId
 import org.mongodb.kbson.ObjectId
 
-class NoteRepository(private val realm: Realm): INoteBinding<NoteModel> {
- override suspend fun findNote(noteId: ObjectId): Note? {
+class NoteRepository(private val realm: Realm) : INoteBinding<NoteModel> {
+    override suspend fun findNote(noteId: ObjectId): Note? {
         return realm.query(Note::class, "id == $0", noteId).find().firstOrNull()
     }
 
@@ -31,7 +31,7 @@ class NoteRepository(private val realm: Realm): INoteBinding<NoteModel> {
     }
 
     override suspend fun updateNote(newNote: NoteModel) {
-        newNote.id?.let {id->
+        newNote.id?.let { id ->
             val old = findNote(id)
             old?.let {
                 realm.write {
@@ -44,7 +44,7 @@ class NoteRepository(private val realm: Realm): INoteBinding<NoteModel> {
     }
 
     override suspend fun deleteNote(note: NoteModel) {
-        note.id?.let {id->
+        note.id?.let { id ->
             val old = findNote(id)
             old?.let {
                 realm.write {
@@ -54,7 +54,5 @@ class NoteRepository(private val realm: Realm): INoteBinding<NoteModel> {
             }
 
         }
-
-
     }
 }

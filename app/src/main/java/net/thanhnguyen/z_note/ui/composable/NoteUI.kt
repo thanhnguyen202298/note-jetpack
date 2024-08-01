@@ -78,7 +78,7 @@ fun NoteItemUi(note: NoteModel, onEdit:(NoteModel)->Unit, onDelete: (NoteModel) 
             end.linkTo(parent.end, margin = 120.dp)
         }
             .padding(0.dp), colors = ButtonDefaults.buttonColors(
-            containerColor = primary,
+            containerColor = Color.Magenta,
             contentColor = secondary,
             disabledContainerColor = LightColorScheme.primaryContainer,
             disabledContentColor = secondary

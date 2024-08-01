@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.util.fastMap
 import androidx.navigation.NavController
@@ -26,7 +25,7 @@ fun HomeScreen(navController: NavController) {
     val list: State<ResultsChange<Note>?> = noteVM.flows.collectAsState(initial = null)
     val truncate = {(list.value?.list?.toList() ?: listOf()).fastMap { it.toNoteModel() }}
     val listNote : List<NoteModel> = truncate()
-    val coroutineScope = rememberCoroutineScope()
+
     LaunchedEffect(key1 = listNote.size) {
         noteVM.countnumber.value = listNote.size
     }
@@ -46,7 +45,7 @@ fun HomeScreen(navController: NavController) {
 fun Home(){
     val listNote = ArrayList<NoteModel>()
     listNote.add(NoteModel(id = null,"new", "hua new tokyo love"))
-    listNote.add(NoteModel(id=null,"new", "hua new tokyo love"))
+    listNote.add(NoteModel(id = null,"new", "hua new tokyo love"))
     listNote.add(NoteModel(id = null, "new", "hua new tokyo love"))
     listNote.add(NoteModel(id = null, "new", "hua new tokyo love"))
 
