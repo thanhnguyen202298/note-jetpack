@@ -14,10 +14,12 @@ import net.thanhnguyen.z_note.domain.note.SaveNoteUseCase
 import net.thanhnguyen.z_note.domain.note.UpdateNoteUseCase
 import net.thanhnguyen.z_note.presenter.viewmodel.NoteViewModel
 import okhttp3.OkHttpClient
+import org.koin.dsl.lazyModule
 import org.koin.dsl.module
+import org.koin.viewmodel.lazyResolveViewModel
 import retrofit2.Retrofit
 
-val AppDataModule = module {
+val AppDataModule = lazyModule {
     single<Realm> { provideNoteDatabase(get()) }
     single<NoteDAO> { NoteDAO(get()) }
     single<NoteLocalData> { provideLocalData(get()) }
@@ -28,6 +30,7 @@ val AppDataModule = module {
     single<NoteApiData> { provideApiData(get()) }
     single<NoteCacheData> { provideCacheData() }
 
+    includes(RepositoryModule, UseCaseModule, ViewModelModule)
 }
 
 val RepositoryModule = module {

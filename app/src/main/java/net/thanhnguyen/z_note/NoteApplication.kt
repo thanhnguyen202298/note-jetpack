@@ -7,6 +7,7 @@ import net.thanhnguyen.z_note.di.UseCaseModule
 import net.thanhnguyen.z_note.di.ViewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import org.koin.core.lazyModules
 
 class NoteApplication: Application() {
 
@@ -14,7 +15,7 @@ class NoteApplication: Application() {
         super.onCreate()
         startKoin {
             androidContext(this@NoteApplication)
-            modules(AppDataModule, RepositoryModule, UseCaseModule, ViewModelModule)
+            lazyModules(AppDataModule)
         }
     }
 }

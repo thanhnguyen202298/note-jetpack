@@ -79,5 +79,5 @@ dependencies {
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-
+    implementation(libs.koin.core.coroutines)
 }

@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.flow.collect
 import net.thanhnguyen.z_note.core.validate
 import net.thanhnguyen.z_note.data.model.NoteItem
 import net.thanhnguyen.z_note.presenter.viewmodel.NoteViewModel
@@ -64,6 +66,8 @@ fun EditNote(
     var noteErrorMessage by rememberSaveable { mutableStateOf("") }
     val scrollState = rememberScrollState()
 
+    val bottomHeight = BottomNavItem.bottomHeight.collectAsState()
+
     val onDone = {
         noteState.value.title = title
         noteState.value.note = note
@@ -85,7 +89,7 @@ fun EditNote(
                     start = 10.dp,
                     top = 10.dp,
                     end = 10.dp,
-                    bottom = BottomNavItem.bottomHeight.plus(10.dp)
+                    bottom = bottomHeight.value.plus(10.dp)
                 )
         ){
             TextInputView(

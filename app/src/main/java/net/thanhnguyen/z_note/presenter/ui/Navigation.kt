@@ -16,11 +16,18 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 import net.thanhnguyen.z_note.presenter.ui.theme.LightColorScheme
 import net.thanhnguyen.z_note.presenter.ui.theme.secondary
+import java.util.concurrent.Flow
 
 
 sealed class BottomNavItem(val route: String, var icon: ImageVector, val label: String) {
@@ -29,9 +36,12 @@ sealed class BottomNavItem(val route: String, var icon: ImageVector, val label: 
 
     companion object {
         fun toArrays() = arrayOf(Home, CreateNote)
-        var bottomHeight = 20.dp
+        val bottomHeight = MutableStateFlow(20.dp)
         fun setBottomHeightDp(heigh: Dp){
-            bottomHeight = heigh}
+            CoroutineScope(Dispatchers.IO).launch {
+                bottomHeight.emit(heigh)
+            }
+        }
     }
 }
 

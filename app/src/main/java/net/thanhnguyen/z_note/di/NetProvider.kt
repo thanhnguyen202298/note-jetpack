@@ -8,7 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-fun baseURL() = ""
+fun baseURL() = "https://tmdb.com"
 fun provideOkHttp() = OkHttpClient.Builder().build()
 fun provideRetrofit(http: OkHttpClient) = Retrofit.Builder().baseUrl(baseURL())
     .addConverterFactory(GsonConverterFactory.create())
