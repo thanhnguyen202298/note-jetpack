@@ -25,7 +25,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import kotlinx.coroutines.flow.collect
 import net.thanhnguyen.z_note.core.validate
 import net.thanhnguyen.z_note.data.model.NoteItem
 import net.thanhnguyen.z_note.presenter.viewmodel.NoteViewModel
@@ -33,6 +32,7 @@ import net.thanhnguyen.z_note.presenter.ui.BottomNavItem
 import net.thanhnguyen.z_note.presenter.ui.composable.GemButton
 import net.thanhnguyen.z_note.presenter.ui.composable.PageHeader
 import net.thanhnguyen.z_note.presenter.ui.composable.TextInputView
+import net.thanhnguyen.z_note.presenter.viewmodel.BaseViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -40,23 +40,28 @@ fun EditScreen(
     navController: NavController){
     val noteVM: NoteViewModel = koinViewModel()
     val notestate = remember {
-        noteVM.noteState
+        noteVM.itemEditingState
     }
 
-    EditNote(navController = navController, notestate){
-        note ->
-        if (note.id == null) {
-            noteVM.insertNote(note)
-        } else {
-            noteVM.updateNote(note)
+    BaseScreen(noteVM) {
+        PageHeader(
+            navController = navController,
+            title = "Edit Note",
+            iconRight = Icons.Default.Edit
+        )
+        EditNote(notestate) { note ->
+            if (note.id == null) {
+                noteVM.insertNote(note)
+            } else {
+                noteVM.updateNote(note)
+            }
+            noteVM.itemEditingState.value = NoteItem()
         }
-        noteVM.noteState.value = NoteItem()
     }
 }
 
 @Composable
 fun EditNote(
-    navController: NavController,
     noteState: MutableState<NoteItem> = remember { mutableStateOf(NoteItem()) },
     onSave: (NoteItem)->Unit
 ) {
@@ -78,9 +83,7 @@ fun EditNote(
         noteErrorMessage = note.validate()
     }
 
-    BaseScreen {
-        PageHeader(navController = navController, title = "Edit Note", iconRight = Icons.Default.Edit)
-        Column(
+     Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
@@ -133,11 +136,11 @@ fun EditNote(
             })
 
         }
-    }
+
 }
 
 @Preview
 @Composable
 fun preveiwEdit(){
-    EditNote(navController = rememberNavController()){}
+    EditNote{}
 }
