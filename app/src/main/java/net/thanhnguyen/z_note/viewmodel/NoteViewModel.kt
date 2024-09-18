@@ -36,40 +36,22 @@ class NoteViewModel(val noteRepository: NoteRepository):ViewModel(), INoteViewMo
     fun insertNote(note: NoteModel) = runCoroutine {
         action.value = UseCase.INSERT
         noteRepository.insertNote(note)
-        runCoroutine {
-            countnumber.value += 1
-            flows.collect{
-                if (action.value != UseCase.INSERT)return@collect
-                val newcout = it.list.toList().count()
-                assertEquals(countnumber.value, newcout)
-            }
-        }
     }
 
     fun updateNote(note: NoteModel) = runCoroutine {
         action.value = UseCase.UPDATE
         noteRepository.updateNote(note)
-        runCoroutine {
-            flows.collect{
-                if (action.value != UseCase.UPDATE)return@collect
-                val newcout = it.list.toList().find { it.note == note.note && it.title == it.title }
-                assert(newcout != null)
-            }
-        }
     }
 
     fun deleteNote(note: NoteModel) = runCoroutine {
         action.value = UseCase.DELETE
         noteRepository.deleteNote(note)
-        runCoroutine {
-            countnumber.value -=1
-            flows.collect{
-                if (action.value != UseCase.DELETE)return@collect
-                val newcout = it.list.toList().count()
-                assertEquals(countnumber.value, newcout)
-            }
-        }
     }
 
     suspend fun find(noteId: ObjectId):Note? = withContext(coroutineScope.coroutineContext){ noteRepository.findNote(noteId) }
+
+    override fun onCleared() {
+        destroyJob()
+        super.onCleared()
+    }
 }
