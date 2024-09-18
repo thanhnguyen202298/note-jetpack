@@ -9,9 +9,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 fun baseURL() = "https://tmdb.com"
-fun provideOkHttp() = OkHttpClient.Builder().build()
-fun provideRetrofit(http: OkHttpClient) = Retrofit.Builder().baseUrl(baseURL())
+fun provideOkHttp(): OkHttpClient = OkHttpClient.Builder().build()
+fun provideRetrofit(http: OkHttpClient): Retrofit = Retrofit.Builder().baseUrl(baseURL())
     .addConverterFactory(GsonConverterFactory.create())
     .client(http).build()
 
-fun provideIService(retrofit: Retrofit) = retrofit.create(IService::class.java)
+fun provideIService(retrofit: Retrofit): IService = retrofit.create(IService::class.java)
