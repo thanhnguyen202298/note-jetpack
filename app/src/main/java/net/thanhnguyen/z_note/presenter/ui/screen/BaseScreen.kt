@@ -37,8 +37,7 @@ fun BaseScreen(baseViewModel: BaseViewModel,navController: NavController? = null
                 }
             }
         }
-
-        onStopOrDispose {  }
+        onStopOrDispose {}
     }
 
     Column(

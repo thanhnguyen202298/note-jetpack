@@ -2,6 +2,7 @@ package net.thanhnguyen.z_note.presenter.viewmodel
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import io.realm.kotlin.notifications.ResultsChange
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +17,7 @@ import net.thanhnguyen.z_note.domain.note.UpdateNoteUseCase
 import net.thanhnguyen.z_note.presenter.ui.BottomNavItem
 
 class NoteViewModel(
-    private val getNoteUseCase: GetNoteUseCase,
+    getNoteUseCase: GetNoteUseCase,
     private val updateNoteUseCase: UpdateNoteUseCase,
     private val saveNoteUseCase: SaveNoteUseCase,
     private val deleteNoteUseCase: DeleteNoteUseCase
@@ -38,4 +39,6 @@ class NoteViewModel(
             sendEvent(UIEvent.NAVIGATION(BottomNavItem.CreateNote.route, ""))
         }
     }
+
+    fun resetEditingState() { itemEditingState.value = NoteItem() }
 }
