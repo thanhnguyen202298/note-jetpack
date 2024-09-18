@@ -9,6 +9,6 @@ import retrofit2.Response
 
 class NoteApiDataImpl(private val noteService: IService): NoteApiData {
     override suspend fun getNoteData(): Response<List<NoteItem>> {
-        return withContext(IO) { noteService.getQuery("") }
+        return noteService.getQuery("")
     }
 }

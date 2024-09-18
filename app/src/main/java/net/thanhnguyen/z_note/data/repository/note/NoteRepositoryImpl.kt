@@ -30,7 +30,8 @@ class NoteRepositoryImpl(
         localDB.insertNoteToDB(listOf(noteItem))
     }
 
-    override fun getNoteFlow(): Flow<ResultsChange<Note>> = localDB.getNoteFlow()
+    override val flows: Flow<ResultsChange<Note>>
+        get() = localDB.getNoteFlow()
 
     override suspend fun refreshData(): List<NoteItem> {
         val noteList = getDataFromApi()

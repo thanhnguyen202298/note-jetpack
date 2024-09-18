@@ -12,10 +12,8 @@ import net.thanhnguyen.z_note.domain.events.UIEvent
 open class BaseViewModel: ViewModel() {
     private val _eventState = MutableSharedFlow<UIEvent>()
     val eventState = _eventState.asSharedFlow()
-    fun sendEvent(event: UIEvent) {
-        viewModelScope.launch{
-            _eventState.emit(event)
-        }
+    suspend fun sendEvent(event: UIEvent) {
+        _eventState.emit(event)
     }
     protected fun getEventState() = _eventState
 }

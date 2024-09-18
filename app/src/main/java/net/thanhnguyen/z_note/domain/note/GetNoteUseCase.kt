@@ -5,5 +5,5 @@ import net.thanhnguyen.z_note.domain.NoteRepository
 
 class GetNoteUseCase(private val noteRespository: NoteRepository) {
     suspend fun execute(): List<NoteItem> = noteRespository.getNote()
-    fun getNoteFlows() = noteRespository.getNoteFlow()
+    fun getNoteFlows() = noteRespository.flows
 }

@@ -34,6 +34,8 @@ class NoteViewModel(
 
     fun itemClick(noteItem: NoteItem) {
         itemEditingState.value = noteItem
-        sendEvent(UIEvent.NAVIGATION(BottomNavItem.CreateNote.route, ""))
+        viewModelScope.launch {
+            sendEvent(UIEvent.NAVIGATION(BottomNavItem.CreateNote.route, ""))
+        }
     }
 }

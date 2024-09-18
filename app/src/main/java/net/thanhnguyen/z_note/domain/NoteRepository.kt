@@ -11,5 +11,5 @@ interface NoteRepository {
     suspend fun updateNote(list: List<NoteItem>)
     suspend fun deleteNote(noteItem: NoteItem)
     suspend fun insertNote(noteItem: NoteItem)
-    fun getNoteFlow(): Flow<ResultsChange<Note>>
+    val flows: Flow<ResultsChange<Note>>
 }
