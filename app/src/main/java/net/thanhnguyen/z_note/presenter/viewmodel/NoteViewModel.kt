@@ -25,16 +25,16 @@ class NoteViewModel(
     val itemEditingState: MutableState<NoteItem> = mutableStateOf(NoteItem())
     val flows: Flow<ResultsChange<Note>> = getNoteUseCase.getNoteFlows()
 
-    fun updateNote(noteItem: NoteItem) = viewModelScope.launch {
+    fun updateNote(noteItem: NoteItem) = runRoutine {
         updateNoteUseCase.execute(listOf(noteItem))
     }
 
-    fun insertNote(noteItem: NoteItem) = viewModelScope.launch { saveNoteUseCase.execute(noteItem) }
-    fun deleteNote(noteItem: NoteItem) = viewModelScope.launch { deleteNoteUseCase.execute(noteItem) }
+    fun insertNote(noteItem: NoteItem) = runRoutine { saveNoteUseCase.execute(noteItem) }
+    fun deleteNote(noteItem: NoteItem) = runRoutine { deleteNoteUseCase.execute(noteItem) }
 
     fun itemClick(noteItem: NoteItem) {
         itemEditingState.value = noteItem
-        viewModelScope.launch {
+        runRoutine {
             sendEvent(UIEvent.NAVIGATION(BottomNavItem.CreateNote.route, ""))
         }
     }

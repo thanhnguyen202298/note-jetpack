@@ -13,7 +13,7 @@ class NoteDAO(private val realm: Realm) : IDAO<NoteItem> {
 
     val flows = realm.query(Note::class).sort("createdDate", Sort.DESCENDING).find().asFlow()
 
-    suspend fun getAll() = realm.query(Note::class).sort("createdDate", Sort.DESCENDING).find()
+    fun getAll() = realm.query(Note::class).sort("createdDate", Sort.DESCENDING).find()
         .map { it.toNoteModel() }
 
     override suspend fun insertNote(note: NoteItem) {

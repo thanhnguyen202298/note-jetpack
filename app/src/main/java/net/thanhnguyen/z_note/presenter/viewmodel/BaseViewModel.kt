@@ -2,6 +2,8 @@ package net.thanhnguyen.z_note.presenter.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consume
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -14,6 +16,10 @@ open class BaseViewModel: ViewModel() {
     val eventState = _eventState.asSharedFlow()
     suspend fun sendEvent(event: UIEvent) {
         _eventState.emit(event)
+    }
+
+    fun runRoutine(suspendFun: suspend () -> Unit) = CoroutineScope(Dispatchers.IO).launch{
+        suspendFun.invoke()
     }
     protected fun getEventState() = _eventState
 }
