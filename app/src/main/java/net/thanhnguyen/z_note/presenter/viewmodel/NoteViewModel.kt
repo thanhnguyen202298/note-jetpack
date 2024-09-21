@@ -2,11 +2,8 @@ package net.thanhnguyen.z_note.presenter.viewmodel
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.viewModelScope
 import io.realm.kotlin.notifications.ResultsChange
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import net.thanhnguyen.z_note.data.model.Note
 import net.thanhnguyen.z_note.data.model.NoteItem
 import net.thanhnguyen.z_note.domain.events.UIEvent
